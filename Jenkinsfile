@@ -1,14 +1,17 @@
-def gitUrl = 'https://github.com/salvitas/product-service.git'
+def gitUrl = 'git@github.com:salvitas/product-service.git'
 
 job('PROJ-unit-tests') {
     scm {
         git(gitUrl)
     }
     triggers {
-        scm('*/15 * * * *')
+        scm('H/15 * * * *')
     }
     steps {
-        maven('-e clean test')
+        maven {
+            goals('-e clean test')
+            mavenInstallation('mvn3.5.3')
+        }
     }
 }
 
