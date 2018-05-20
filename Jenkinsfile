@@ -1,6 +1,6 @@
 node {
 
-    withMaven(maven:'maven') {
+    withMaven(maven:'mvn3.5.3') {
 
         stage('Checkout') {
             git url: 'https://github.com/salvitas/product-service.git', branch: 'develop'
