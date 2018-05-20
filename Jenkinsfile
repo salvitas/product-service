@@ -1,4 +1,4 @@
-def gitUrl = 'git@github.com:salvitas/product-service.git'
+def gitUrl = 'https://github.com/salvitas/product-service.git'
 
 job('PROJ-unit-tests') {
     scm {
