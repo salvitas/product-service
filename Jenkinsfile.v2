@@ -1,6 +1,13 @@
+def gitUrl = 'https://github.com/salvitas/product-service.git'
+
 node {
     stage('Build') {
         echo 'Building....'
+        git(gitUrl)
+        maven {
+                    goals('-e clean test')
+                    mavenInstallation('mvn3.5.3')
+                }
     }
     stage('Test') {
         echo 'Building....'
