@@ -1,20 +1,24 @@
-def gitUrl = 'https://github.com/salvitas/product-service.git'
+def gitUrl = 'git@github.com:salvitas/product-service.git'
 
 node {
-    stage('Build') {
-        echo "Running ${env.BUILD_ID} on ${env.JENKINS_URL}"
-        git url: gitUrl, branch: 'develop'
-        withEnv(["JAVA_HOME=${ tool 'JDK8u172' }", "PATH+MAVEN=${tool 'mvn3.5.3'}/bin:${env.JAVA_HOME}/bin"]) {
-            sh "mvn -e -DskipTests clean package "
+    withMaven(maven:'mvn3.5.3') {
+
+        stage('Checkout') {
+            echo "Running ${env.BUILD_ID} on ${env.JENKINS_URL}"
+            git url: gitUrl, credentialsId: 'salvitas', branch: 'develop'
         }
-    }
-    stage('Test') {
-        withEnv(["JAVA_HOME=${ tool 'JDK8u172' }", "PATH+MAVEN=${tool 'mvn3.5.3'}/bin:${env.JAVA_HOME}/bin"]) {
+
+        stage('Build') {
+            sh "mvn -e -DskipTests clean package"
+        }
+
+        stage('Test') {
             sh "mvn -e test "
         }
 
+        stage('Deploy') {
+            echo 'Deploying....'
+        }
     }
-    stage('Deploy') {
-        echo 'Deploying....'
-    }
+
 }
