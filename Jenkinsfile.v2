@@ -1,7 +1,7 @@
 def gitUrl = 'git@github.com:salvitas/product-service.git'
 
 node {
-    withMaven(maven:'mvn3.5.3') {
+    withEnv(["JAVA_HOME=${ tool 'JDK8u172' }", "PATH+MAVEN=${tool 'mvn3.5.3'}/bin:${env.JAVA_HOME}/bin"]) {
 
         stage('Checkout') {
             echo "Running ${env.BUILD_ID} on ${env.JENKINS_URL}"
