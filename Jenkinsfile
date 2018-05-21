@@ -1,56 +1,25 @@
-def gitUrl = 'https://github.com/salvitas/product-service.git'
+def gitUrl = 'git@github.com:salvitas/product-service.git'
 
-job('PROJ-unit-tests') {
-    scm {
-        git(gitUrl)
-    }
-    triggers {
-        scm('H/15 * * * *')
-    }
-    steps {
-        maven {
-            goals('-e clean test')
-            mavenInstallation('mvn3.5.3')
+node {
+    withEnv(["JAVA_HOME=${ tool 'JDK8u172' }", "PATH+MAVEN=${tool 'mvn3.5.3'}/bin:${env.JAVA_HOME}/bin"]) {
+
+        stage('Checkout') {
+            echo "Running ${env.BUILD_ID} on ${env.JENKINS_URL}"
+            git url: gitUrl, credentialsId: 'salvitas', branch: 'develop'
+        }
+
+        stage('Build') {
+            sh "mvn -e -DskipTests clean package"
+        }
+
+        stage('Test') {
+            sh "mvn -e test"
+        }
+
+        stage('Release') {
+            #sh "mvn jgitflow:release-start"
+            #sh "mvn jgitflow:release-finish"
         }
     }
-}
 
-job('PROJ-sonar') {
-    scm {
-        git(gitUrl)
-    }
-    triggers {
-        cron('15 13 * * *')
-    }
-    steps {
-        maven('sonar:sonar')
-    }
-}
-
-job('PROJ-integration-tests') {
-    scm {
-        git(gitUrl)
-    }
-    triggers {
-        cron('15 1,13 * * *')
-    }
-    steps {
-        maven('-e clean integration-test')
-    }
-}
-
-job('PROJ-release') {
-    scm {
-        git(gitUrl)
-    }
-    // no trigger
-    authorization {
-        // limit builds to just Jack and Jill
-        permission('hudson.model.Item.Build', 'jill')
-        permission('hudson.model.Item.Build', 'jack')
-    }
-    steps {
-        maven('-B release:prepare release:perform')
-        shell('cleanup.sh')
-    }
 }
