@@ -17,8 +17,8 @@ node {
         }
 
         stage('Release') {
-            #sh "mvn jgitflow:release-start"
-            #sh "mvn jgitflow:release-finish"
+            //sh "mvn jgitflow:release-start"
+            //sh "mvn jgitflow:release-finish"
         }
     }
 
