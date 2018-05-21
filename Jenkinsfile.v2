@@ -4,7 +4,9 @@ node {
     stage('Build') {
         echo "Running ${env.BUILD_ID} on ${env.JENKINS_URL}"
         git url: gitUrl, branch: 'develop'
-        maven goals: '-e clean package -DskipTests', installation: 'mvn3.5.3'
+        withEnv(["JAVA_HOME=${ tool 'JDK8u172' }", "PATH+MAVEN=${tool 'mvn3.5.3'}/bin:${env.JAVA_HOME}/bin"]) {
+            sh "mvn -e -DskipTests clean package "
+        }
     }
     stage('Test') {
         echo 'Building....'
