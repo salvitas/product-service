@@ -22,6 +22,14 @@
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
         <java.version>1.8</java.version>
     </properties>
+    
+    <distributionManagement>
+       <repository>
+         <id>github</id>
+         <name>GitHub Salvitas Apache Maven Packages</name>
+         <url>https://maven.pkg.github.com/salvitas/product-service</url>
+       </repository>
+    </distributionManagement>
 
     <dependencyManagement>
         <dependencies>
