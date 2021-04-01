@@ -15,14 +15,14 @@ import org.springframework.web.bind.annotation.RestController;
  * @since 19/05/2018
  */
 @RestController
-public class Api {
+public class ProductsApi {
 
     private List<Product> products;
 
 
-    protected Logger logger = LoggerFactory.getLogger(Api.class);
+    protected Logger logger = LoggerFactory.getLogger(ProductsApi.class);
 
-    public Api() {
+    public ProductsApi() {
         products = new ArrayList<>();
         products.add(new Product("111111"));
         products.add(new Product("222222"));
@@ -38,5 +38,10 @@ public class Api {
     public List<Product> findAll() {
         logger.info("Product.findAll()");
         return products;
+    }
+
+
+    public String get() {
+        return "Hello JUnit 5";
     }
 }
