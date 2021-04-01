@@ -5,3 +5,5 @@
 * mvn jgitflow:hotfix-start Starts a hotfix
 * mvn jgitflow:hotfix-finish Finishes a hotfix
 * mvn jgitflow:build-number Updates the pom versions in the current branch by adding a build number label
+
+docker/build-push-action@v1 -> uses Dockerfile in order to build docker image (explore usage of jib in future)
